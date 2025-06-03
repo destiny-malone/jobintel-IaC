@@ -12,10 +12,13 @@ Traditional job tracking tools are **static** with spreadsheets, Notion boards, 
 
 JobIntel applies **DevOps principles** to career anagement:
 
-    - **Terraform-Provisioned Infrastructure** -> S3 storage for resume version tracking
-    - **CI/CD Pipeline via GitHub Actions** -> Automated Terraform valudation & deployment
-    - **Slack Alerts for Job Applications** -> Real-time notifications for success & failure
-    - **Observability & Intelligence Layer** -> Track patterns in job applicationn rejections
+- **Terraform-Provisioned Infrastructure** -> S3 storage for resume version tracking
+
+- **CI/CD Pipeline via GitHub Actions** -> Automated Terraform valudation & deployment
+
+- **Slack Alerts for Job Applications** -> Real-time notifications for success & failure
+
+- **Observability & Intelligence Layer** -> Track patterns in job applicationn rejections
 
 **JobIntel is built in phases, aligning with real-world DevOps tooling and certifications.**
 
@@ -27,7 +30,7 @@ JobIntel applies **DevOps principles** to career anagement:
 
 ### Slack Alerts Triggered by GitHub Actions
 
-    Terraform runs send real-time Slack messages on success & failure.
+Terraform runs send real-time Slack messages on success & failure.
 
 #### Live Demo
 
@@ -44,19 +47,23 @@ I wanted something **better than spreadsheets or Notion**. I wanted **automation
 
 ### Key Components
 
-    - Full Terraform infrastructure for job tracking
-    - Automated resume hosting via AWS S3
-    - CI/CD pipelines integrating Slack alerts
-    - AI-powered rejection pattern analysis
-    - Certification-aligned architecture
+- Full Terraform infrastructure for job tracking
+
+- Automated resume hosting via AWS S3
+
+- CI/CD pipelines integrating Slack alerts
+
+- AI-powered rejection pattern analysis
+
+- Certification-aligned architecture
 
 #### Project Phases
 
-    - **Phases 1–2**: Iac, CI/CD, Terraform workflows
+- **Phases 1–2**: Iac, CI/CD, Terraform workflows
 
-    - **Phase 3**: Observability, structured tfplan parsing, Slack log enrichment
+- **Phase 3**: Observability, structured tfplan parsing, Slack log enrichment
 
-    - **Phase 4+**: Python backend, resume versioning, CLI, NLP intelligence
+- **Phase 4+**: Python backend, resume versioning, CLI, NLP intelligence
 
 ---
 
@@ -136,10 +143,13 @@ JobIntel mirrors **production DevOps workflows**, helping build practical expert
 
 JobIntel is a **modular**, with separate repositories for each component:
 
-    - [`Terraform IaC`](https://github.com/destiny-malone/jobintel-IaC)
-    - [`Python backend`](https://github.com/destiny-malone/jobintel-api)
-    - [`GitHub Actions, Terraform automation`](https://github.com/destiny-malone/jobintel-cicd)
-    - [`Documentation & cert tracking`](https://github.com/destiny-malone/jobintel-cli)
+- [`Terraform IaC`](https://github.com/destiny-malone/jobintel-IaC)
+
+- [`Python backend`](https://github.com/destiny-malone/jobintel-api)
+
+- [`GitHub Actions, Terraform automation`](https://github.com/destiny-malone/jobintel-cicd)
+
+- [`Documentation & cert tracking`](https://github.com/destiny-malone/jobintel-cli)
 
 ### For full technical breakdown, see [See full breakdown.](PROJECT_OVERVIEW.md)
 

@@ -14,21 +14,21 @@ JobIntel follows a modular, **Terraform-driven** approach for Infrastructure pro
 
 ### Core Components
 
-    - **Infrastructure-as-Code** -> Terraform provisions AWS S3 for resume
+- **Infrastructure-as-Code** -> Terraform provisions AWS S3 for resume
 
-    - **CI/CD Pipelines** -> GitHub Actions automate Terraform validation & deployment
+- **CI/CD Pipelines** -> GitHub Actions automate Terraform validation & deployment
 
-    - **Slack Notifications** -> Real-time job application tracking & Terraform alerts
+- **Slack Notifications** -> Real-time job application tracking & Terraform alerts
 
-    - **Observability & Security** -> tfplan parsing, failure recovery strategies, tfsec scanning
+- **Observability & Security** -> tfplan parsing, failure recovery strategies, tfsec scanning
 
 #### Architecture Diagrams
 
-    - **Infra Overview:** Terraform -> AWS S3 (IAM-authenticated, randomized bucket)
+- **Infra Overview:** Terraform -> AWS S3 (IAM-authenticated, randomized bucket)
 
-    - **CI/CD Pipeline:** GitHub Actions workflows for Terraform validation & deployment
+- **CI/CD Pipeline:** GitHub Actions workflows for Terraform validation & deployment
 
-    - **Observability Flow:** Slack logging, rollback strategy, failure detection
+- **Observability Flow:** Slack logging, rollback strategy, failure detection
 
 **View Architecture Diagrams:**
 
@@ -52,9 +52,11 @@ JobIntel follows a modular, **Terraform-driven** approach for Infrastructure pro
 
 Terraform provisions all core infrastructures using **modular principles:**
 
-    - `terraform init`
-    - `terraform plan -out=tfplan.binary`
-    - `terraform apply tfplan.binary`
+- `terraform init`
+
+- `terraform plan -out=tfplan.binary`
+
+- `terraform apply tfplan.binary`
 
 ### Terraform Modules
 
@@ -72,11 +74,11 @@ Terraform provisions all core infrastructures using **modular principles:**
 
 #### Features
 
-    - IAM authentication & access control
+- IAM authentication & access control
 
-    - Environment-based configurations via GitHub Action secrets
+- Environment-based configurations via GitHub Action secrets
 
-    - Secure state management
+- Secure state management
 
 ---
 
@@ -85,10 +87,16 @@ Terraform provisions all core infrastructures using **modular principles:**
 JobIntel enforces Terraform **best practices** through automated pipelines:
 
 | Stage | Action | Purpose |
-| Pre-Checks | `terraform fmt` | Ensures consistent formatting |
-| Validation | `terraform validate` | Verifies IaC syntax |
-| Planning | `terraform plan` | Generates `tfplan.json` |
-| Deployment | `terraform apply` | Deploys infrastructure |
+|-----------|------------------|-----------------------|
+
+| Pre-Checks | `terraform fmt` | Ensures consistent formatting ||
+
+| Validation | `terraform validate` | Verifies IaC syntax ||
+
+| Planning | `terraform plan` | Generates `tfplan.json` ||
+
+| Deployment | `terraform apply` | Deploys infrastructure ||
+
 | Observability | `tfplan parsing` | Extracts metadata for Slack alerts |
 
 ### CI/CD Workflow Diagram
@@ -103,19 +111,19 @@ JobIntel enforces Terraform **best practices** through automated pipelines:
 
 ### Security Layers
 
-    - **tfsec & Trivy** -> Scans Terraform configs for misconfigureations
+- **tfsec & Trivy** -> Scans Terraform configs for misconfigureations
 
-    - **Secrets Management** -> GitHub Environments for secret handling
+- **Secrets Management** -> GitHub Environments for secret handling
 
-    - **IAM Policies** -> Enforce least privilege principles
+- **IAM Policies** -> Enforce least privilege principles
 
 ### Observability Setup
 
-    - **Slack logging** -> Terraform alerts for failures & approvals**
+- **Slack logging** -> Terraform alerts for failures & approvals**
 
-    - **tfplan Parsing** -> Extract changes and metadata
+- **tfplan Parsing** -> Extract changes and metadata
 
-    - **Future Expansion:** AI-driven job hunt analythics
+- **Future Expansion:** AI-driven job hunt analythics
 
 #### Failure Recovery Flow
 
@@ -127,11 +135,11 @@ JobIntel enforces Terraform **best practices** through automated pipelines:
 
 ### Collaboration Guidelines
 
-    - Use **modular Terraform design** for scalability
+- Use **modular Terraform design** for scalability
 
-    - Keep secrets **out of source code** (use env vars & vaults)
+- Keep secrets **out of source code** (use env vars & vaults)
 
-    - Follow *CI/CD best practices** when submitting changes
+- Follow *CI/CD best practices** when submitting changes
 
 #### Repository Links
 
