@@ -126,13 +126,13 @@ Mapping system errors, logs, and fallback response flow for production-grade obs
 
 JobIntel mirrors **production DevOps workflows**, helping build practical expertise in infrastructure automation.
 
-| Feature | Real-World Job Skill |
-|-----------------------------|-----------------------|
+| Feature                               | Real-World Job Skill                     |
+|---------------------------------------|------------------------------------------|
 | Slack alerting for Terraform failures | On-call observability & CI/CD monitoring |
-| Secure GitHub Actions pipeline | Environment-based deployments |
-| Terraform + AWS IAM + S3 | Infrastructure-as-Code provisioning |
-| tfplan artifact storage | Debugging infrastructure failures |
-| AI-based resume scoring | Future job insights automation |
+| Secure GitHub Actions pipeline        | Environment-based deployments            |
+| Terraform + AWS IAM + S3              | Infrastructure-as-Code provisioning      |
+| tfplan artifact storage               | Debugging infrastructure failures        |
+| AI-based resume scoring               | Future job insights automation           |
 
 ---
 

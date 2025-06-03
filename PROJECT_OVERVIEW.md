@@ -86,12 +86,12 @@ Terraform provisions all core infrastructures using **modular principles:**
 
 JobIntel enforces Terraform **best practices** through automated pipelines:
 
-| Stage         | Action              | Purpose             |
-|---------------|---------------------|---------------------|
-| Pre-Checks    |`terraform fmt`      | Ensures consistent formatting |
-| Validation    |`terraform validate` | Verifies IaC syntax |
-| Planning      |`terraform plan`     | Generates `tfplan.json` |
-| Deployment    |`terraform apply`    | Deploys infrastructure |
+| Stage         | Action              | Purpose                            |
+|---------------|---------------------|------------------------------------|
+| Pre-Checks    |`terraform fmt`      | Ensures consistent formatting      |
+| Validation    |`terraform validate` | Verifies IaC syntax                |
+| Planning      |`terraform plan`     | Generates `tfplan.json`            |
+| Deployment    |`terraform apply`    | Deploys infrastructure             |
 | Observability |`tfplan parsing`     | Extracts metadata for Slack alerts |
 
 ### CI/CD Workflow Diagram
