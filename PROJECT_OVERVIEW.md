@@ -86,18 +86,18 @@ Terraform provisions all core infrastructures using **modular principles:**
 
 JobIntel enforces Terraform **best practices** through automated pipelines:
 
-| Stage | Action | Purpose |
-|-----------|------------------|-----------------------|
+| Stage         | Action              | Purpose             |
+|---------------|---------------------|---------------------|
 
-| Pre-Checks | `terraform fmt` | Ensures consistent formatting ||
+| Pre-Checks    |`terraform fmt`      | Ensures consistent formatting |
 
-| Validation | `terraform validate` | Verifies IaC syntax ||
+| Validation    |`terraform validate` | Verifies IaC syntax |
 
-| Planning | `terraform plan` | Generates `tfplan.json` ||
+| Planning      |`terraform plan`     | Generates `tfplan.json` |
 
-| Deployment | `terraform apply` | Deploys infrastructure ||
+| Deployment    |`terraform apply`    | Deploys infrastructure |
 
-| Observability | `tfplan parsing` | Extracts metadata for Slack alerts |
+| Observability |`tfplan parsing`     | Extracts metadata for Slack alerts |
 
 ### CI/CD Workflow Diagram
 
@@ -119,7 +119,7 @@ JobIntel enforces Terraform **best practices** through automated pipelines:
 
 ### Observability Setup
 
-- **Slack logging** -> Terraform alerts for failures & approvals**
+- **Slack logging** -> Terraform alerts for failures & approvals
 
 - **tfplan Parsing** -> Extract changes and metadata
 
@@ -139,7 +139,7 @@ JobIntel enforces Terraform **best practices** through automated pipelines:
 
 - Keep secrets **out of source code** (use env vars & vaults)
 
-- Follow *CI/CD best practices** when submitting changes
+- Follow **CI/CD best practices** when submitting changes
 
 #### Repository Links
 
