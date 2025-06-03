@@ -113,15 +113,12 @@ Mapping system errors, logs, and fallback response flow for production-grade obs
 
 ## Cert Mapped Layers
 
-| Layer                    | Tech Stack                            | Mapped Certification(s)                 | Status  |
-|--------------------------|----------------------------------------|------------------------------------------|---------|
-| Infrastructure as Code   | Terraform, AWS (S3, Lambda, IAM)       | Terraform Associate, AWS SA Pro          |  Phase 1 Complete |
-| Backend API              | Python (FastAPI, Flask), Boto3         | Python Certification                     |  Planned |
-| Automation & Bot Logic   | Slack SDK, Python Scheduler, GH Actions| DevOps Core, Python                      |  Planned |
-| Containerization         | Docker, Kubernetes                     | Docker DCA, CKA                          |  Planned |
-| CI/CD Pipelines          | GitHub Actions                         | DevOps Mastery, CI/CD Systems            |  Phase 2 Complete |
-| Monitoring & Logging     | CloudWatch, IAM Policy, Alerting       | AWS SA Pro, Cloud Security (Future)      |  Planned |
-| Intelligence Layer       | OpenAI API, NLP, Resume Scoring        | ML/AI Exploratory                        |  Experimental |
+| Layer                    | Tech Stack                             | Mapped Certification(s)           | Status            |
+|--------------------------|----------------------------------------|-----------------------------------|-------------------|
+| Infrastructure as Code   | Terraform, AWS (S3, Lambda, IAM)       | Terraform Associate, AWS SA Pro   |  Phase 1 Complete |
+| CI/CD Pipelines          | GitHub Actions                         | DevOps Mastery                    |  Phase 2 Complete |
+| Observability & Logging  | Slack, Terraform tf Parsing            | Cloud Security (Future)           |  Planned          |
+| Resume Automation        | S3 hosting, Python automation          | Python, Cloud AI                  |  Planned          |
 
 ---
 
