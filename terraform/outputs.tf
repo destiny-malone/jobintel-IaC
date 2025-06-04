@@ -1,15 +1,36 @@
-output "bucket_name" {
-  description = "Name of the S3 bucket"
-  value       = aws_s3_bucket.resume_bucket.bucket
-}
-output "bucket_arn" {
-  description = "ARN of the resume bucket"
-  value       = aws_s3_bucket.resume_bucket.arn
-}
-output "region" {
-  description = "The AWS region where the bucket is deployed"
-  value       = "us-west-2"
+# Terraform Remote State Outputs
+output "s3_bucket_name" {
+  description = "Terraform state storage bucket"
+  value       = aws_s3_bucket.terraform_state.id
 }
 
-# ARN is the Amazon Resource Name, a unique (exact/full) identifier (ID) for AWS resources (buckets) to attach policies/permissions
-# The bucket name is the unique name of the S3 bucket
+output "dynamodb_table_name" {
+  description = "State locking table for Terraform"
+  value       = aws_dynamodb_table.terraform_state_lock.name
+}
+
+# Security & IAM Output1
+
+# Security & IAM Output2
+
+
+# CI/CD Pipeline Output
+
+# # Slack Notifications Webhook
+
+# # Artifact Storage Location
+
+# Debugging & Audit Trail Outputs
+
+# # Terraform Version Output
+
+# # AWS Account and Region Outputs
+output "aws_account_id" {
+  description = "AWS Account where resources are deployed"
+  value       = data.aws_caller_identity.current.account_id
+}
+
+output "current_region" {
+  description = "Region where Terraform resources are deployed"
+  value       = var.aws_region
+}
