@@ -16,9 +16,10 @@ provider "aws" {
     region  = var.aws_region
 }
 
+# Data sources for AWS resources - these are used to fetch information about existing buckets, roles, etc.
+# This is useful for referencing existing resources without hardcoding values.
 data "aws_caller_identity" "current" {}
-
-# data "aws_s3_bucket" "terraform_state" {
-#     bucket = var.terraform_state_bucket
-# }
+data "aws_s3_bucket" "terraform_state" {
+    bucket = var.terraform_state_bucket
+}
 
