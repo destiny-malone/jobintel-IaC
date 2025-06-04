@@ -9,7 +9,7 @@ terraform_workspace = "dev"
 iam_role_name = "jobintel-terraform-role"
 iam_policy_name = "jobintel-terraform-policy"
 
-slack_webhook_url = "https://hooks.slack.com/services/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"
+slack_webhook_url = "https://hooks.slack.com/services/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"
 artifact_store_bucket = "jobintel-artifact-storage"
 
 
