@@ -164,6 +164,6 @@ It's my **resume, job-tracker, and a proof-of-concept for real-worls infrastruct
 
 ## **License**
 
-MIT — Feel free to **fork**, **build**, and **remix**.
+MIT — Feel free to **fork**, **build**, and **remix**. 
 
 ---
