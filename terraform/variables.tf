@@ -57,9 +57,38 @@ variable "slack_webhook_url" {
   description = "Slack webhook URL for notifications"
   type        = string
 }
+
+variable "artifact_store_bucket" {
+  description = "S3 bucket for storing CI/CD artifacts"
+  type        = string
+}
+
+variable "terraform_workspace" {
+  description = "Terraform workspace/environment"
+  type        = string
+}
 variable "artifact_storage_location" {
   description = "S3 bucket for storing build artifacts"
   type        = string
   default     = "jobintel-artifacts"
 }
 
+variable "security_scan_image" {
+  description = "Container image for security scanning"
+  type        = string
+}
+
+variable "iam_role_name" {
+  description = "IAM role used for Terraform execution"
+  type        = string
+}
+
+variable "iam_policy_name" {
+  description = "IAM policy used for Terraform execution"
+  type        = string
+}
+variable "security_scan_enabled" {
+  description = "Enable security scanning in CI/CD pipeline"
+  type        = bool
+  default     = true
+}

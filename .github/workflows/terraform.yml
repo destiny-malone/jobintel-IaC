@@ -27,11 +27,13 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: ./terraform/
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -out=tfplan.out
         working-directory: ./terraform/
 
       - name: Terraform Apply (Manual Approval)
         if: github.event_name == 'push'
-        run: terraform apply -auto-approve
+        run: terraform apply tfplan.out -auto-approve
+        working-directory: ./terraform/
