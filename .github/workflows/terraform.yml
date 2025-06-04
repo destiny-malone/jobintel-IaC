@@ -30,6 +30,7 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan
+        working-directory: ./terraform/
 
       - name: Terraform Apply (Manual Approval)
         if: github.event_name == 'push'
