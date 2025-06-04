@@ -34,7 +34,7 @@ jobs:
         working-directory: ./terraform/
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan.out
+        run: terraform plan -out=tfplan.out -parallelism=10
         working-directory: ./terraform/
 
       - name: Terraform Apply (Manual Approval)
