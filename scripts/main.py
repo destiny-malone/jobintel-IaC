@@ -1,10 +1,10 @@
-from parser.parse_tfplan import parse_tfplan, calculate_duration
+from scripts.parse_tfplan import parse_tfplan, calculate_duration
 import json
-from utils.logger import setup_logger
+from scripts.logger import setup_logger
 import os
 from datetime import datetime
-from slack.notifier import send_slack_notification, format_slack_message
-from utils.config_loader import load_config
+from scripts.notifier import send_slack_notification, format_slack_message
+from scripts.config_loader import load_config
 
 
 logger = setup_logger(__name__)

@@ -1,0 +1,26 @@
+name: Code Linting & Security Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Python linters
+        run: pip install flake8
+        
+      - name: Run Python linting (scripts/)
+        run: flake8 scripts/
+
+      - name: Install Terraform security scanner (tfsec)
+        run: curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+      
+      - name: Run security scan (Terraform)
+        run: tfsec terraform/

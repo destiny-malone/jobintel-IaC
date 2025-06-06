@@ -22,22 +22,30 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Terraform
+        uses: actions/checkout@v3
+        
+      - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: "1.4.0"
 
       - name: Terraform Init
-        run: terraform init
-        working-directory: ./terraform/
-
+        run: terraform init -backend-config="config/settings.yaml"
+        
       - name: Terraform Plan
-        run: terraform plan -out=tfplan.out -parallelism=10
-        working-directory: ./terraform/
+        run: terraform plan -out=tfplan
+        
+      - name: Terraform Security Scan
+        run: |
+          curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+          tfsec terraform/
 
-      - name: Terraform Apply (Manual Approval)
-        if: github.event_name == 'workflow_dispatch'
-        run: terraform apply tfplan.out -auto-approve
-        working-directory: ./terraform/
+      - name: Terraform Apply
+        if: github.event_name == 'push'
+        run: terraform apply -auto-approve tfplan
+
+      - name: Notify Slack on Success
+        if: success()
+        run: curl -X POST -H 'Content-type: application/json' --data {"text": "Terraform applied successfully!"}' ${{ env.SLACK_WEBHOOK_URL }}
+
+      - name: Notify Slack on Failure
+        if: failure()
+        run: curl -X POST -H 'Content-type: application/json' --data '{"text": "Terraform failed!"}' $SLACK_WEBHOOK_URL

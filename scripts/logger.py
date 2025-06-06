@@ -2,7 +2,7 @@ import logging
 import sys
 
 
-def setup_logger(name, level=logging.INFO):
+def setup_logger(name="JobIntelLogger", level=logging.INFO):
     """
     Set up a logger with the specified name and logging level.
 
@@ -30,3 +30,5 @@ def setup_logger(name, level=logging.INFO):
     logger.addHandler(ch)
 
     return logger
+
+logger = setup_logger()
