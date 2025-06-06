@@ -57,7 +57,7 @@ jobs:
           tfsec terraform/
 
       - name: Terraform Init
-        run: terraform -chdir=terraform/ init
+        run: terraform -chdir=terraform/ init --upgrade
         
       - name: Terraform Plan
         run: terraform -chdir=terraform/ plan -out=tfplan
