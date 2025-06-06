@@ -14,12 +14,12 @@ def setup_logger(name="JobIntelLogger", level=logging.INFO):
         logging.Logger: Configured logger instance.
     """
     logger = logging.getLogger(name)
-    logger.setLevel(level.upper())
+    logger.setLevel(level)
     # Check if the logger already has handlers to avoid duplicate logs
 
     # Create console handler
     ch = logging.StreamHandler(sys.stdout)
-    ch.setLevel(level.upper())
+    ch.setLevel(level)
     # Set the logging format
 
     # Create formatter and add it to the handler
