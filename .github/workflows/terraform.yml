@@ -40,7 +40,7 @@ jobs:
           terraform_version: latest
 
       - name: Terraform Init
-        run: terraform init -chdir=terraform/ -backend-config="config/settings.yaml"
+        run: terraform init -chdir=terraform/"
         
       - name: Terraform Plan
         run: terraform plan -chdir=terraform/ -out=tfplan
