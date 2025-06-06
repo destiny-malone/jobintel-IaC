@@ -74,7 +74,7 @@ jobs:
               echo "ERROR: Some providers failed to initialize!"
               
               # Send Slack alert
-              curl -X POST -H 'Content-type: application/json' --data '{"text":"⚠️ Terraform provider validation failed!"}' $SLACK_WEBHOOK_URL
+              curl -X POST -H 'Content-type: application/json' --data '{"text":"Terraform provider validation failed!"}' $SLACK_WEBHOOK_URL
 
               exit 1
           fi
