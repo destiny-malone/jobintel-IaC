@@ -26,11 +26,11 @@ variable "terraform_state_lock_table" {
   type        = string
   default     = "jobintel-terraform-state-lock"
 }
-variable "terraform_state_versioning" {
-  description = "Enable versioning for Terraform state bucket"
-  type        = bool
-  default     = true
-}
+# variable "terraform_state_versioning" {
+#   description = "Enable versioning for Terraform state bucket"
+#   type        = bool
+#   default     = true
+# }
 variable "terraform_state_encryption" {
   description = "Enable encryption for Terraform state bucket"
   type        = bool

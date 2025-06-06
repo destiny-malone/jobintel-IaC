@@ -15,10 +15,10 @@
 # Debugging & Audit Trail Outputs
 
 # # Terraform Version Output
-output "terraform_version" {
-  description = "Terraform version running in the pipeline"
-  value       = data.external.terraform_version.result.version
-}
+# output "terraform_version" {
+#   description = "Terraform version running in the pipeline"
+#   value       = data.external.terraform_version.result.version
+# }
 # # AWS Account and Region Outputs
 output "aws_account_id" {
   description = "AWS Account where resources are deployed"
