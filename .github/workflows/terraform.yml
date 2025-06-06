@@ -58,11 +58,30 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform -chdir=terraform/ apply -auto-approve tfplan
 
+      # - name: Parse tfplan and Send to Slack
+      #   run: |
+      #     terraform -chdir=terraform/ show -json tfplan > logs/tfplan.json
+      #     cat logs/tfplan.json
+      #     python scripts/parse_tfplan.py --input logs/tfplan.json --output logs/plan_output.json
+
       - name: Parse tfplan and Send to Slack
         run: |
-          terraform -chdir=terraform/ show -json tfplan > logs/tfplan.json
+          echo "--- Running terraform show to generate JSON plan ---"
+          terraform show -chdir=terraform/ -json tfplan | tee logs/tfplan.json
+
+          # Check if the file exists and has content
+          if [ ! -s logs/tfplan.json ]; then
+            echo "ERROR: logs/tfplan.json is empty or not created after terraform show!"
+            exit 1
+          fi
+
+          echo "--- Content of logs/tfplan.json ---"
           cat logs/tfplan.json
-          python scripts/parse_tfplan.py --input logs/tfplan.json --output logs/plan_output.json
+
+          echo "--- Running Python script ---"
+          python ${{ github.workspace }}/scripts/parse_tfplan.py \
+            --input ${{ github.workspace }}/logs/tfplan.json \
+            --output ${{ github.workspace }}/logs/plan_output.json
 
       - name: Comment Plan on Pull Request
         if: github.event_name == 'pull_request'
