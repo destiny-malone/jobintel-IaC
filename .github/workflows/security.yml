@@ -19,6 +19,24 @@ jobs:
   devsecops:
     name: Trivy Scans
     runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.ref_name }}
+      GITHUB_ACTOR: ${{ github.actor }}
+      DISPLAY_BRANCH: ${{ github.ref }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_CHANNEL: ${{ github.ref_name == 'main' && '#production-alerts' || '#dev-alerts' }}
+      GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      TF_VAR_slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+      TF_VAR_environment: ${{ github.ref_name == 'main' && 'production' || github.ref_name }}
+      TF_VAR_region: ${{ secrets.AWS_REGION }}
+      TF_VAR_aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+      TF_LOG: ${{ secrets.TF_LOG }}
+      TF_INPUT: false
+      TF_CLI_ARGS: "-no-color"
 
     strategy:
       fail-fast: false
