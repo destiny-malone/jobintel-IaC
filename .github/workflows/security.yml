@@ -42,10 +42,23 @@ jobs:
           if: matrix.scan == 'trivy'
           uses: aquasecurity/trivy-action@master
 
-        - name: Run trivy with strict failure conditions
+        - name: Verify Terraform directory before scan
           run: |
-            trivy config --refresh
-            trivy config -chdir=terraform/ --scan-all-layers --severity HIGH,CRITICAL --exit-code 1 --no-progress --format json --output logs/trivy-output.json
+            if [ ! -d "terraform/" ]; then
+            echo "Error: terraform/ directory not found!"
+            exit 1
+            fi
+
+        - name: Run initial Trivy scan
+          run: |
+            trivy config --scan-all-layers --severity HIGH,CRITICAL --exit-code 1 --no-progress --format json --output logs/trivy-output.json terraform/ || \
+            (echo "Scan failed, resetting Trivy DB..." && trivy config --reset && exit 1)
+
+        - name: Retry Trivy scan after reset (only if previous step failed)
+          if: failure()
+          run: |
+            echo "Retrying Trivy scan..."
+            trivy config --scan-all-layers --severity HIGH,CRITICAL --exit-code 1 --no-progress --format json --output logs/trivy-output.json terraform/
 
         - name: Upload trivy report
           uses: actions/upload-artifact@v4.6.2
