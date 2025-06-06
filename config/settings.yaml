@@ -1,0 +1,14 @@
+environment: "dev"  # Can be "staging" or "prod"
+aws_region: "us-west-2"
+terraform_backend: "s3://jobintel-terraform-state"
+dynamodb_lock_table: "jobintel-terraform-state-lock"
+iam_role_arn: "arn:aws:iam::057286249049:role/jobintel-terraform-role"
+
+slack_webhook_url: "${{ secrets.SLACK_WEBHOOK_URL }}"  # Stored securely in GitHub Secrets
+
+artifact_storage_bucket: "jobintel-artifact-storage"
+artifact_retention_days: 30
+terraform_state_versioning: true
+terraform_state_encryption: true
+
+log_level: "INFO"  # Can be set to "DEBUG" for detailed logging

@@ -3,12 +3,12 @@ import sys
 import requests
 
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../scripts'))
 from config_loader import load_config
 
 
 # Load configuration
-config = load_config()
+config = load_config("../config/settings.yaml")
 slack_config = config.get('slack', {})
 webhook_url = os.environ.get("SLACK_WEBHOOK_URL"), slack_config.get('webhook_url')
 

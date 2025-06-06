@@ -1,3 +1,23 @@
-environment: "dev"
-terraform_backend: "s3://jobintel-terraform-state"
-log_level: "INFO"
+security_scan_enabled: true
+security_scan_tool: "tfsec"
+slack_alerts_for_failures: true
+
+terraform_state_encryption: true
+terraform_state_versioning: true
+terraform_state_public_access_block: true
+terraform_state_ownership_controls: "BucketOwnerPreferred"
+
+iam_restricted_actions:
+  - "s3:DeleteObject"
+  - "iam:PassRole"
+  - "ec2:TerminateInstances"
+
+minimum_password_length: 14
+password_policy:
+  require_uppercase: true
+  require_lowercase: true
+  require_numbers: true
+  require_special_chars: true
+  expiration_days: 90
+
+terraform_policy_enforcement: "strict"

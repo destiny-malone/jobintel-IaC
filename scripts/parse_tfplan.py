@@ -6,9 +6,9 @@ import requests
 # Constants
 from datetime import datetime
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '../utils'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../scripts'))
 from config_loader import load_config
-sys.path.append(os.path.join(os.path.dirname(__file__), '../slack'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../scripts'))
 from notifier import send_slack_notification, format_slack_message
 
 
@@ -17,7 +17,7 @@ from notifier import send_slack_notification, format_slack_message
 
 
 # Load configuration
-config = load_config()
+config = load_config("../config/settings.yaml")
 
 # Access configuration values
 TFPLAN_PATH = config.get('terraform', {}).get('tfplan_path', 'tfplan.json')
