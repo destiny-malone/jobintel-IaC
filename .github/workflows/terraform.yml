@@ -22,10 +22,12 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       SLACK_CHANNEL: ${{ github.ref_name == 'main' && '#production-alerts' || '#dev-alerts' }}
       GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-      TF_VAR_slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
       TF_VAR_environment: ${{ github.ref_name == 'main' && 'production' || github.ref_name }}
       TF_VAR_region: ${{ secrets.AWS_REGION }}
       TF_VAR_aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+      TF_VAR_iam_role_name: ${{ secrets.IAM_ROLE_NAME }}
+      TF_VAR_iam_policy_name: ${{ secrets.IAM_POLICY_NAME }}
+      TF_VAR_artifact_storage_bucket: ${{ secrets.ARTIFACT_STORAGE_BUCKET }}
       TF_LOG: ${{ secrets.TF_LOG }}
       TF_INPUT: false
       TF_CLI_ARGS: "-no-color"

@@ -33,3 +33,18 @@ output "aws_region" {
 output "current_env_config" {
   value = lookup(local.env_config, var.environment, "jobintel-default")
 }
+
+output "artifact_storage_bucket" {
+  description = "Artifact Storage Bucket"
+  value       = var.artifact_storage_bucket
+}
+
+output "iam_role_name" {
+  description = "Artifact Storage Bucket"
+  value       = var.iam_role_name
+}
+
+output "iam_policy_name" {
+  description = "IAM Policy Name"
+  value       = var.iam_policy_name
+}

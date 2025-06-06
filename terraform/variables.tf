@@ -10,6 +10,21 @@ variable "aws_account_id" {
   type        = string
 }
 
+variable "artifact_storage_bucket" {
+  description = "Artifact Storage bucket"
+  type        = string
+}
+
+variable "iam_role_name" {
+  description = "IAM Role name"
+  type        = string
+}
+
+variable "iam_policy_name" {
+  description = "IAM Policy name"
+  type        = string
+}
+
 # Terraform State Variables
 variable "terraform_state_bucket" {
   description = "S3 bucket for Terraform state storage"
