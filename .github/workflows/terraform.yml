@@ -32,6 +32,14 @@ jobs:
       id-token: write
       contents: read
     steps:
+      - name: 'Cleanup build folder'
+        run: |
+          ls -la ./
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+          ls -la ./
+
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -42,6 +50,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: latest
+          clean-up-terraform: true
 
       - name: Terraform Security Scan
         run: |
