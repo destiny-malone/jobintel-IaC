@@ -39,20 +39,20 @@ jobs:
         with:
           terraform_version: latest
 
-      - name: Terraform Init
-        run: terraform init -chdir=terraform/ -backend-config="../config/settings.yaml"
-        
-      - name: Terraform Plan
-        run: terraform plan -chdir=terraform/ -out=tfplan
-        
       - name: Terraform Security Scan
         run: |
           curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
           tfsec terraform/
 
-      - name: Terraform Apply
-        if: github.event_name == 'push'
-        run: terraform apply -chdir=terraform/ -auto-approve tfplan
+      - name: Terraform Init
+        run: terraform -chdir=terraform/ init -backend-config="../config/settings.yaml"
+        
+      - name: Terraform Plan
+        run: terraform -chdir=terraform/ plan -out=tfplan
+
+      - name: Terraform Apply (Only on Main)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform -chdir=terraform/ apply -auto-approve tfplan.binary
 
 
       - name: Parse tfplan and Send to Slack
@@ -68,10 +68,6 @@ jobs:
             ```json
             ${{ steps.plan_output.outputs.plan }}
             ```
-
-      - name: Terraform Apply (Only on Main)
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -chdir=terraform/ -auto-approve tfplan.binary
 
       - name: Set Slack Channel
         id: slack_channel
