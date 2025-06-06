@@ -34,6 +34,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Create logs directory
+        run: mkdir -p logs
         
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
@@ -55,25 +58,9 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform -chdir=terraform/ apply -auto-approve tfplan
 
-
-      # - name: Parse tfplan and Send to Slack
-      #   run: |
-      #     terraform -chdir=terraform/ show -json tfplan > tfplan.json
-      #     python scripts/parse_tfplan.py --input logs/tfplan.json --output logs/plan_output.json
-
       - name: Parse tfplan and Send to Slack
         run: |
-          echo "--- Running terraform show to generate JSON plan ---"
-          # Run terraform show and direct its output to standard output (so we see it in logs)
-          # Use 'tee' to also save it to the file 'logs/tfplan.json'
-          terraform show -chdir=terraform/ -json tfplan | tee logs/tfplan.json
-          
-          echo "--- Content of logs/tfplan.json ---"
-          # Print the content of the generated file to the log for verification
-          cat logs/tfplan.json
-          
-          echo "--- Running Python script ---"
-          # Now run the Python script
+          terraform -chdir=terraform/ show -json tfplan > tfplan.json
           python scripts/parse_tfplan.py --input logs/tfplan.json --output logs/plan_output.json
 
       - name: Comment Plan on Pull Request
