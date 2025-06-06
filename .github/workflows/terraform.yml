@@ -45,7 +45,7 @@ jobs:
           tfsec terraform/
 
       - name: Terraform Init
-        run: terraform -chdir=terraform/ init -backend-config="../config/settings.yaml"
+        run: terraform -chdir=terraform/ init"
         
       - name: Terraform Plan
         run: terraform -chdir=terraform/ plan -out=tfplan
