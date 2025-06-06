@@ -57,7 +57,9 @@ jobs:
 
 
       - name: Parse tfplan and Send to Slack
-        run: python scripts/parse_tfplan.py --input logs/tfplan.json --output logs/plan_output.json
+        run: |
+          terraform show -json tfplan > tfplan.json
+          python scripts/parse_tfplan.py --input logs/tfplan.json --output logs/plan_output.json
 
       - name: Comment Plan on Pull Request
         if: github.event_name == 'pull_request'
