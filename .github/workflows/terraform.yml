@@ -12,11 +12,21 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
     env:
+      BRANCH_NAME: ${{ github.ref_name }}
+      GITHUB_ACTOR: ${{ github.actor }}
+      DISPLAY_BRANCH: ${{ github.ref }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       TF_VAR_slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+      TF_VAR_environment: ${{ github.ref_name == 'main' && 'production' || github.ref_name }}
+      TF_VAR_region: ${{ secrets.AWS_REGION }}
+      TF_VAR_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+      TF_LOG: ${{ secrets.TF_LOG }}
+      TF_INPUT: false
+      TF_CLI_ARGS: "-no-color"
     permissions:
       id-token: write
       contents: read
@@ -42,10 +52,71 @@ jobs:
         if: github.event_name == 'push'
         run: terraform apply -auto-approve tfplan
 
-      - name: Notify Slack on Success
-        if: success()
-        run: curl -X POST -H 'Content-type: application/json' --data {"text": "Terraform applied successfully!"}' ${{ env.SLACK_WEBHOOK_URL }}
 
-      - name: Notify Slack on Failure
-        if: failure()
-        run: curl -X POST -H 'Content-type: application/json' --data '{"text": "Terraform failed!"}' $SLACK_WEBHOOK_URL
+      - name: Parse tfplan and Send to Slack
+        run: python scripts/parse_tfplan.py --input logs/tfplan.json --output logs/plan_output.json
+
+      - name: Comment Plan on Pull Request
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          number: ${{ github.event.pull_request.number }}
+          header: "### Terraform Plan"
+          message: |
+            ```json
+            ${{ steps.plan_output.outputs.plan }}
+            ```
+
+      - name: Terraform Apply (Only on Main)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve tfplan.binary
+
+      - name: Set Slack Channel
+        id: slack_channel
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "channel=#production-alerts" >> $GITHUB_ENV
+          else 
+            echo "channel=#${{ github.ref_name }}-alerts" >> $GITHUB_ENV
+          fi
+
+      - name: Slack Notification (Success)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && success() && (env.TF_VAR_environment == 'production' || env.TF_VAR_environment == 'prod')
+        uses: slackapi/slack-github-action@v1
+        with:
+          payload: |
+            {
+              "text": "Terraform plan applied successfully in `${{ env.TF_VAR_environment }}` environment (branch: `${{ env.DISPLAY_BRANCH }}`)."
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
+          SLACK_CHANNEL: ${{ env.SLACK_CHANNEL }}
+
+      - name: Slack Notification (Failure)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && failure()
+        uses: slackapi/slack-github-action@v1
+        with:
+          payload: |
+            {
+              "text": "Terraform plan failed in `${{ env.TF_VAR_environment }}` environment (branch: `${{ env.DISPLAY_BRANCH }}`)."
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
+          SLACK_CHANNEL: ${{ env.SLACK_CHANNEL }}
+
+      - name: Save Terraform Workflow Logs
+        if: always()
+        run: |
+          echo "Saving Terraform plan in JSON format..."
+          terraform show -json tfplan.binary > logs/tfplan.json
+          echo "Terraform logs saved to logs/tfplan.json"
+        env:
+          TF_LOG: ${{ env.TF_LOG }}
+
+      - name: Upload Full Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-workflow-logs
+          path: |
+            logs/tfplan.json

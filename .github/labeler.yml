@@ -1,0 +1,34 @@
+infrastructure:
+  - "*.tf"
+  - "**/*.tf"
+  - "terraform/*.tf"
+  - "terraform/modules/*.tf"
+
+ci/cd:
+  - ".github/workflows/*"
+  - ".github/workflows/**/*.yml"
+  - ".github/workflows/**/*.yaml"
+
+documentation:
+  - "**/*.md"
+
+scripts:
+  - "**/*.sh"
+  - "**/*.ps1"
+  - "**/*.psm1"
+
+configs:
+  - "config/*.yml"
+  - "config/*.yaml"
+  - "config/*.json"
+
+
+python:
+  - "scripts/*.py"
+
+tests:
+  - "**/tests/*.py"
+  - "**/test_*.py"
+  - "**/tests/**/*.py"
+  - "**/test_*.py"
+

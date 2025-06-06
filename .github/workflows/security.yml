@@ -1,0 +1,129 @@
+name: Security Scanners
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  id-token: write
+  actions: write
+  checks: write
+  issues: write
+  pull-requests: write
+  statuses: write
+
+jobs:
+  devsecops:
+    name: Terraform Security + Trivy Scans
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        scan: [tfsec, trivy]
+    
+    steps:
+
+        - name: Run GitHub Secret Scanning
+          run: gh secret list
+
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Prepare logs directory
+          run: mkdir -p logs
+      
+        - name: Run ${{ matrix.scan }} Security Scan
+          if: matrix.scan == 'tfsec'
+          uses: aquasecurity/tfsec-action@v1.0.3
+
+        - name: Run ${{ matrix.scan }} Security Scan
+          if: matrix.scan == 'trivy'
+          uses: aquasecurity/trivy-action@master
+
+        - name: Install Dependencies
+          run: pip install -r requirements.txt
+
+        - name: Run tfsec with strict failure conditions
+          run: |
+            echo "Running tfsec security scan"
+            tfsec . --format json --out logs/tfsec-output.json || exit 1
+
+        - name: Run trivy with strict failure conditions
+          run: |
+            if [ -f Dockerfile ]; then
+                echo "Dockerfile found, running Trivy scan"
+                trivy config --severity HIGH,CRITICAL --exit-code 1 --no-progress --format json --output logs/trivy-output.json Dockerfile || exit 1
+            else
+                echo "No Dockerfile found, skipping Trivy scan"
+            fi
+
+        - name: Run security scan (Terraform)
+          run: tfsec terraform/
+
+        - name: Upload tfsec report
+          uses: actions/upload-artifact@v3
+          with:
+            name: tfsec-report
+            path: logs/tfsec-output.json
+
+        - name: Upload trivy report
+          uses: actions/upload-artifact@v3
+          with:
+            name: trivy-report
+            path: logs/trivy-output.json
+
+        - name: Run additional security scan
+          if: matrix.scan == 'trivy' || matrix.scan == 'tfsec'
+          run: python security/security_scan.py
+ 
+        - name: Upload security report
+          uses: actions/upload-artifact@v3
+          with:
+            name: security-report
+            path: logs/trivy-output.txt
+
+        - name: Notify on Slack (success)
+          if: (success() && (github.event_name == 'push' || github.event_name == 'pull_request'))
+          uses: slackapi/slack-github-action@v1.22.0
+          with:
+            payload: |
+              {
+                "text": "Security scan completed for `${{ github.repository }}` on branch  `${{ github.ref_name }}` by `${{ github.actor }}`.",
+                "attachments": [
+                  {
+                    "title": "Security Report",
+                    "text": "The security scan has been completed. Please review the report.",
+                    "color": "#36a64f"
+                  }
+                ]
+              }
+          env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+            SLACK_CHANNEL: "#jobintel-alerts"
+            SLACK_USERNAME: "JobIntel Bot"
+            SLACK_ICON_EMOJI: ":robot_face:"
+        
+        - name: Notify on Slack (failure)
+          if: (failure() && (github.event_name == 'push' || github.event_name == 'pull_request'))
+          uses: slackapi/slack-github-action@v1.22.0
+          with:
+            payload: |
+              {
+                "text": "Security scan failed for `${{ github.repository }}` on branch  `${{ github.ref_name }}` by `${{ github.actor }}`.",
+                "attachments": [
+                  {
+                    "title": "Security Report",
+                    "text": "The security scan has failed. Please check the logs for details.",
+                    "color": "#ff0000"
+                  }
+                ]
+              }
+          env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+            SLACK_CHANNEL: "#jobintel-alerts"
+            SLACK_USERNAME: "JobIntel Bot"
+            SLACK_ICON_EMOJI: ":robot_face:"
