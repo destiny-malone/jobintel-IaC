@@ -18,7 +18,7 @@ output "terraform_version" {
 # # AWS Account and Region Outputs
 output "aws_account_id" {
   description = "AWS Account where resources are deployed"
-  value       = data.aws_caller_identity.current.account_id
+  value       = var.aws_account_id
 }
 
 output "aws_region" {
