@@ -132,9 +132,9 @@ jobs:
         id: slack_channel
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
-            echo "channel=#production-alerts" >> $GITHUB_ENV
+            echo "channel=#production-alerts" >> ${{ env.TF_VAR_environment }}
           else 
-            echo "channel=#${{ github.ref_name }}-alerts" >> $GITHUB_ENV
+            echo "channel=#${{ github.ref_name }}-alerts" >> ${{ env.TF_VAR_environment }}
           fi
 
       - name: Slack Notification (Success)

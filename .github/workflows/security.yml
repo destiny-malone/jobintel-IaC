@@ -38,6 +38,10 @@ jobs:
         - name: Prepare logs directory
           run: mkdir -p logs
 
+        - name: Install Trivy
+          run: |
+            curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/install.sh | sh
+
         - name: Verify Terraform directory before scan
           run: |
             if [ ! -d "terraform/" ]; then
