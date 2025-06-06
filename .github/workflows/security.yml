@@ -65,13 +65,13 @@ jobs:
           run: tfsec terraform/
 
         - name: Upload tfsec report
-          uses: actions/upload-artifact@v3
+          uses: actions/upload-artifact@v4.6.2
           with:
             name: tfsec-report
             path: logs/tfsec-output.json
 
         - name: Upload trivy report
-          uses: actions/upload-artifact@v3
+          uses: actions/upload-artifact@v4.6.2
           with:
             name: trivy-report
             path: logs/trivy-output.json
@@ -81,14 +81,14 @@ jobs:
           run: python scripts/security_scan.py
  
         - name: Upload security report
-          uses: actions/upload-artifact@v3
+          uses: actions/upload-artifact@v4.6.2
           with:
             name: security-report
             path: logs/trivy-output.txt
 
         - name: Notify on Slack (success)
           if: (success() && (github.event_name == 'push' || github.event_name == 'pull_request'))
-          uses: slackapi/slack-github-action@v1.22.0
+          uses: slackapi/slack-github-action@v2.1.0
           with:
             payload: |
               {
@@ -109,7 +109,7 @@ jobs:
         
         - name: Notify on Slack (failure)
           if: (failure() && (github.event_name == 'push' || github.event_name == 'pull_request'))
-          uses: slackapi/slack-github-action@v1.22.0
+          uses: slackapi/slack-github-action@v2.1.0
           with:
             payload: |
               {
