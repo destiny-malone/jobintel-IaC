@@ -22,7 +22,7 @@ output "aws_account_id" {
 }
 
 output "aws_region" {
-  description = "AWS region for ${var.terraform_workspace}"
+  description = "AWS region"
   value       = var.aws_region
 }
 
