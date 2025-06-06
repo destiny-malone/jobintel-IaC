@@ -60,7 +60,8 @@ jobs:
 
       - name: Parse tfplan and Send to Slack
         run: |
-          terraform -chdir=terraform/ show -json tfplan > tfplan.json
+          terraform -chdir=terraform/ show -json tfplan > logs/tfplan.json
+          cat logs/tfplan.json
           python scripts/parse_tfplan.py --input logs/tfplan.json --output logs/plan_output.json
 
       - name: Comment Plan on Pull Request
