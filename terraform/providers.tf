@@ -19,10 +19,10 @@ provider "aws" {
 # Data sources for AWS resources - these are used to fetch information about existing buckets, roles, etc.
 # This is useful for referencing existing resources without hardcoding values.
 data "aws_caller_identity" "current" {}
-data "aws_s3_bucket" "terraform_state" {
+data "aws_s3_bucket" "terraform_state_bucket" {
     bucket = var.terraform_state_bucket
 }
-data "aws_dynamodb_table" "terraform_state_lock" {
+data "aws_dynamodb_table" "terraform_state_lock_table" {
     name = var.terraform_state_lock_table
 }
 # data "external" "terraform_version" {

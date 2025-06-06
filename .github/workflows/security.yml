@@ -38,6 +38,7 @@ jobs:
       TF_VAR_iam_policy_name: ${{ secrets.IAM_POLICY_NAME }}
       TF_VAR_artifact_storage_bucket: ${{ secrets.ARTIFACT_STORAGE_BUCKET }}
       TF_VAR_slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+      TF_VAR_security_policy_name: ${{ secrets.SECURITY_POLICY_NAME }}
       TF_LOG: ${{ secrets.TF_LOG }}
       TF_INPUT: false
       TF_CLI_ARGS: "-no-color"

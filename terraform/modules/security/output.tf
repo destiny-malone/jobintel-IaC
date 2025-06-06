@@ -10,3 +10,8 @@ output "security_scan_enabled" {
 output "existing_security_policy_arn" {
   value = data.aws_iam_policy.existing_security_policy.arn
 }
+
+output "security_policy_name" {
+  description = "Security state storage bucket"
+  value       = aws_iam_policy.security_policy
+}
