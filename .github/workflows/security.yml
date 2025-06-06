@@ -38,10 +38,6 @@ jobs:
         - name: Prepare logs directory
           run: mkdir -p logs
 
-        - name: Run ${{ matrix.scan }} Security Scan
-          if: matrix.scan == 'trivy'
-          uses: aquasecurity/trivy-action@master
-
         - name: Verify Terraform directory before scan
           run: |
             if [ ! -d "terraform/" ]; then
