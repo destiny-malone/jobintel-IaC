@@ -49,8 +49,7 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: latest
-          clean-up-terraform: true
+          terraform_version: 1.8.4
 
       - name: Terraform Security Scan
         run: |
