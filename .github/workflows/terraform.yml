@@ -75,21 +75,24 @@ jobs:
       - name: Parse tfplan and Send to Slack
         run: |
           echo "--- Running terraform show to generate JSON plan ---"
-          terraform show -chdir=terraform/ -json tfplan | tee logs/tfplan.json
-
+          # Run terraform show from the repository root (default working directory).
+          # Explicitly provide the path to the tfplan file: 'terraform/tfplan'
+          terraform show -json terraform/tfplan | tee logs/tfplan.json
+          
           # Check if the file exists and has content
           if [ ! -s logs/tfplan.json ]; then
             echo "ERROR: logs/tfplan.json is empty or not created after terraform show!"
             exit 1
           fi
-
+          
           echo "--- Content of logs/tfplan.json ---"
           cat logs/tfplan.json
-
+          
           echo "--- Running Python script ---"
-          python ${{ github.workspace }}/scripts/parse_tfplan.py \
-            --input ${{ github.workspace }}/logs/tfplan.json \
-            --output ${{ github.workspace }}/logs/plan_output.json
+          # Ensure this Python script path is absolute for robustness
+          python /home/runner/work/jobintel-IaC/jobintel-IaC/scripts/parse_tfplan.py \
+            --input /home/runner/work/jobintel-IaC/jobintel-IaC/logs/tfplan.json \
+            --output /home/runner/work/jobintel-IaC/jobintel-IaC/logs/plan_output.json
 
       - name: Comment Plan on Pull Request
         if: github.event_name == 'pull_request'
