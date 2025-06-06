@@ -56,8 +56,30 @@ jobs:
           curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
           tfsec terraform/
 
-      - name: Terraform Init
-        run: terraform -chdir=terraform/ init --upgrade
+      # - name: Terraform Init
+      #   run: terraform -chdir=terraform/ init 
+
+      - name: Terraform Init Reconfigure
+        run: |
+          terraform -chdir=terraform/ init --upgrade
+          terraform -chdir=terraform/ init --reconfigure
+          terraform -chdir=terraform/ init -migrate-state
+
+      - name: Terraform Provider
+        run: |
+          echo "--- Validating Terraform Providers ---"
+          # Run `terraform providers` and capture any failure
+          terraform -chdirs=terraform/ providers > logs/providers.log 2>&1
+          if grep -q "unavailable provider" logs/providers.log; then
+              echo "ERROR: Some providers failed to initialize!"
+              
+              # Send Slack alert
+              curl -X POST -H 'Content-type: application/json' --data '{"text":"⚠️ Terraform provider validation failed!"}' $SLACK_WEBHOOK_URL
+
+              exit 1
+          fi
+
+          echo "✅ All providers are available."
         
       - name: Terraform Plan
         run: terraform -chdir=terraform/ plan -out=tfplan
