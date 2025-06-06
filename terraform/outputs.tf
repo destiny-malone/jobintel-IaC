@@ -1,13 +1,17 @@
-# Terraform Remote State Outputs
-output "terraform_state_bucket" {
-  description = "Terraform state storage bucket"
-  value       = aws_s3_bucket.terraform_state.id
-}
+# Manually created terraform-state and state-lock in AWS Management Console for s3 bucket and dynamodb table with correct region so that github can access
+#  Removed s3 bucket
+#  Removed dynamodb lock
 
-output "state_lock_dynamodb" {
-  description = "State locking table for Terraform"
-  value       = aws_dynamodb_table.terraform_state_lock.name
-}
+# Terraform Remote State Outputs
+# output "terraform_state_bucket" {
+#   description = "Terraform state storage bucket"
+#   value       = aws_s3_bucket.terraform_state.id
+# }
+
+# output "state_lock_dynamodb" {
+#   description = "State locking table for Terraform"
+#   value       = aws_dynamodb_table.terraform_state_lock.name
+# }
 # Debugging & Audit Trail Outputs
 
 # # Terraform Version Output
@@ -18,7 +22,7 @@ output "terraform_version" {
 # # AWS Account and Region Outputs
 output "aws_account_id" {
   description = "AWS Account where resources are deployed"
-  value       = var.aws_account_id
+  value       = aws_caller_identity.current.account_id
 }
 
 output "aws_region" {

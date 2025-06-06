@@ -5,14 +5,4 @@
 #  Removed s3 bucket ownership controls
 #  Removed s3 bucket server side encryption configuration
 #  Removed dynamodb table
-
-
-resource "null_resource" "terraform_version_check" {
-  provisioner "local-exec" {
-    command = "terraform --version > terraform-version.txt"
-  }
-  triggers = {
-    always_run = "${timestamp()}"
-    terraform_version = "${terraform_version()}"
-  }
-}
+#  Removed version checking because yml gets latest version now
