@@ -25,9 +25,6 @@ data "aws_s3_bucket" "terraform_state" {
 data "aws_dynamodb_table" "terraform_state_lock" {
     name = var.terraform_state_lock_table
 }
-data "external" "terraform_version" {
-    program = ["bash", "-c", "terraform version | head -n 1 | awk '{print $2}'"]
-}
 data "aws_region" "current" {}
 
 
