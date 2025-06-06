@@ -34,7 +34,7 @@ def load_config(config_path):
         sys.exit(1)
 
 def main():
-    config = load_config("../config/settings.yaml")
+    config = load_config("config/security.yaml")
     logger.info(f"Loaded configuration: {config}")
 
 if __name__ == "__main__":

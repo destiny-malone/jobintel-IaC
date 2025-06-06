@@ -6,3 +6,4 @@
 #  Removed s3 bucket server side encryption configuration
 #  Removed dynamodb table
 #  Removed version checking because yml gets latest version now
+

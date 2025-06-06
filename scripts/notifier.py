@@ -8,7 +8,7 @@ from config_loader import load_config
 
 
 # Load configuration
-config = load_config("../config/settings.yaml")
+config = load_config("config/security.yaml")
 slack_config = config.get('slack', {})
 webhook_url = os.environ.get("SLACK_WEBHOOK_URL"), slack_config.get('webhook_url')
 

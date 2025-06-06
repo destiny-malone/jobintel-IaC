@@ -10,7 +10,7 @@ from scripts.config_loader import load_config
 logger = setup_logger(__name__)
 logger.info("Starting Terraform plan parser...")
 # Load configuration
-config = load_config("../config/settings.yaml")
+config = load_config("config/scurity.yaml")
 TFPLAN_PATH = config.get('terraform', {}).get('tfplan_path', 'tfplan.json')
 region = config.get('aws', {}).get('region', 'us-west-2')
 

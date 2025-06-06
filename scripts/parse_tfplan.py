@@ -17,7 +17,7 @@ from notifier import send_slack_notification, format_slack_message
 
 
 # Load configuration
-config = load_config("../config/settings.yaml")
+config = load_config("config/security.yaml")
 
 # Access configuration values
 TFPLAN_PATH = config.get('terraform', {}).get('tfplan_path', 'tfplan.json')
