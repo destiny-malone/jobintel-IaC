@@ -39,12 +39,22 @@ output "artifact_storage_bucket" {
   value       = var.artifact_storage_bucket
 }
 
+output "iam_role_arn" {
+  description = "IAM Role ARN"
+  value       = var.iam_role_arn
+}
+
 output "iam_role_name" {
-  description = "Artifact Storage Bucket"
+  description = "IAM Role Name"
   value       = var.iam_role_name
 }
 
 output "iam_policy_name" {
   description = "IAM Policy Name"
   value       = var.iam_policy_name
+}
+
+output "slack_webhook_url" {
+  description = "Slack Webhook URL"
+  value       = var.slack_webhook_url
 }

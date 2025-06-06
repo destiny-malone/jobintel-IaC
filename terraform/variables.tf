@@ -15,6 +15,11 @@ variable "artifact_storage_bucket" {
   type        = string
 }
 
+variable "iam_role_arn" {
+  description = "IAM Role ARN"
+  type        = strirng
+}
+
 variable "iam_role_name" {
   description = "IAM Role name"
   type        = string
@@ -29,7 +34,6 @@ variable "iam_policy_name" {
 variable "terraform_state_bucket" {
   description = "S3 bucket for Terraform state storage"
   type        = string
-  default     = "jobintel-terraform-state"
 }
 variable "terraform_state_key" {
   description = "S3 key for Terraform state file"
@@ -39,7 +43,6 @@ variable "terraform_state_key" {
 variable "terraform_state_lock_table" {
   description = "DynamoDB table for Terraform state locking"
   type        = string
-  default     = "jobintel-terraform-state-lock"
 }
 # variable "terraform_state_versioning" {
 #   description = "Enable versioning for Terraform state bucket"
@@ -73,4 +76,9 @@ variable "terraform_workspace" {
   description = "Terraform workspace/environment"
   type        = string
   default     = "dev"
+}
+
+variable "slack_webhook_url" {
+  description = "SLACK_WEBHOOK_URL"
+  type        = string
 }
