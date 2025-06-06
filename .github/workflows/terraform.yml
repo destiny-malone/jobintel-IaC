@@ -75,12 +75,17 @@ jobs:
               echo "ERROR: Some providers failed to initialize!"
               
               # Send Slack alert
-              curl -X POST -H 'Content-type: application/json' --data '{"text":"Terraform provider validation failed!"}' $SLACK_WEBHOOK_URL
+              curl -X POST -H 'Content-type: application/json' --data '{"text":"Terraform provider validation failed!"}' ${{ env.SLACK_WEBHOOK_URL }}
 
               exit 1
           fi
 
           echo "✅ All providers are available."
+        env:
+          SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
+          SLACK_CHANNEL: ${{ env.SLACK_CHANNEL }}
+          SLACK_USERNAME: "JobIntel Bot"
+          SLACK_ICON_EMOJI: ":robot_face:"
         
       - name: Terraform Plan
         run: terraform -chdir=terraform/ plan -out=tfplan
@@ -148,6 +153,8 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
           SLACK_CHANNEL: ${{ env.SLACK_CHANNEL }}
+          SLACK_USERNAME: "JobIntel Bot"
+          SLACK_ICON_EMOJI: ":robot_face:"
 
       - name: Slack Notification (Failure)
         if: github.ref == 'refs/heads/main' && github.event_name == 'push' && failure()
@@ -160,6 +167,9 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
           SLACK_CHANNEL: ${{ env.SLACK_CHANNEL }}
+          SLACK_USERNAME: "JobIntel Bot"
+          SLACK_ICON_EMOJI: ":robot_face:"
+
 
       - name: Save Terraform Workflow Logs
         if: always()
