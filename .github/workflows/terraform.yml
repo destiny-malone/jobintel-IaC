@@ -52,7 +52,7 @@ jobs:
 
       - name: Terraform Apply (Only on Main)
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform -chdir=terraform/ apply -auto-approve tfplan.binary
+        run: terraform -chdir=terraform/ apply -auto-approve tfplan
 
 
       - name: Parse tfplan and Send to Slack
