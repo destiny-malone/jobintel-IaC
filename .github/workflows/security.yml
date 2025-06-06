@@ -19,8 +19,6 @@ jobs:
   devsecops:
     name: Terraform Security + Trivy Scans
     runs-on: ubuntu-latest
-    env:
-        GH_TOKEN: ${{ github.token }}
 
     strategy:
       fail-fast: false
@@ -29,11 +27,13 @@ jobs:
     
     steps:
 
-        - name: Run GitHub Secret Scanning
-          run: gh secret list
-
         - name: Checkout repository
           uses: actions/checkout@v4
+
+        - name: Run GitHub Secret Scanning
+          env:
+            GH_TOKEN: ${{ github.token }}
+          run: gh secret list
 
         - name: Prepare logs directory
           run: mkdir -p logs
