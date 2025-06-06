@@ -1,4 +1,4 @@
-name: Security Scanners
+name: Security Scanner
 
 on:
   push:
@@ -17,13 +17,13 @@ permissions:
 
 jobs:
   devsecops:
-    name: Terraform Security + Trivy Scans
+    name: Trivy Scans
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        scan: [tfsec, trivy]
+        scan: [trivy]
     
     steps:
 
@@ -37,37 +37,13 @@ jobs:
 
         - name: Prepare logs directory
           run: mkdir -p logs
-      
-        - name: Run ${{ matrix.scan }} Security Scan
-          if: matrix.scan == 'tfsec'
-          uses: aquasecurity/tfsec-action@v1.0.3
 
         - name: Run ${{ matrix.scan }} Security Scan
           if: matrix.scan == 'trivy'
           uses: aquasecurity/trivy-action@master
 
-        - name: Run tfsec with strict failure conditions
-          run: |
-            echo "Running tfsec security scan"
-            tfsec . --format json --out logs/tfsec-output.json || exit 1
-
         - name: Run trivy with strict failure conditions
-          run: |
-            if [ -f Dockerfile ]; then
-                echo "Dockerfile found, running Trivy scan"
-                trivy config --severity HIGH,CRITICAL --exit-code 1 --no-progress --format json --output logs/trivy-output.json Dockerfile || exit 1
-            else
-                echo "No Dockerfile found, skipping Trivy scan"
-            fi
-
-        - name: Run security scan (Terraform)
-          run: tfsec terraform/
-
-        - name: Upload tfsec report
-          uses: actions/upload-artifact@v4.6.2
-          with:
-            name: tfsec-report
-            path: logs/tfsec-output.json
+          run: trivy config --scan-all-layers --severity HIGH,CRITICAL --exit-code 1 --no-progress --format json --output logs/trivy-output.json Dockerfile || exit 1
 
         - name: Upload trivy report
           uses: actions/upload-artifact@v4.6.2
@@ -76,7 +52,7 @@ jobs:
             path: logs/trivy-output.json
 
         - name: Run additional security scan
-          if: matrix.scan == 'trivy' || matrix.scan == 'tfsec'
+          if: matrix.scan == 'trivy'
           run: python scripts/security_scan.py
  
         - name: Upload security report
