@@ -46,9 +46,6 @@ jobs:
           if: matrix.scan == 'trivy'
           uses: aquasecurity/trivy-action@master
 
-        - name: Install Dependencies
-          run: pip install -r requirements.txt
-
         - name: Run tfsec with strict failure conditions
           run: |
             echo "Running tfsec security scan"
