@@ -78,7 +78,7 @@ jobs:
 
         - name: Run additional security scan
           if: matrix.scan == 'trivy' || matrix.scan == 'tfsec'
-          run: python security/security_scan.py
+          run: python scripts/security_scan.py
  
         - name: Upload security report
           uses: actions/upload-artifact@v3
