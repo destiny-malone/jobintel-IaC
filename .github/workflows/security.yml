@@ -53,7 +53,7 @@ jobs:
 
         - name: Run initial Trivy scan
           run: |
-            trivy config --scan-all-layers --severity HIGH,CRITICAL --exit-code 1 --no-progress --format json --output logs/trivy-output.json terraform/ || \
+            trivy config --severity HIGH,CRITICAL --exit-code 1 --no-progress --format json --output logs/trivy-output.json terraform/ || \
             (echo "Scan failed, resetting Trivy DB..." && trivy config --reset && exit 1)
 
         - name: Retry Trivy scan after reset (only if previous step failed)
