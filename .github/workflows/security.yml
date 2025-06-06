@@ -45,7 +45,7 @@ jobs:
         - name: Run trivy with strict failure conditions
           run: |
             trivy config --refresh
-            trivy config --scan-all-layers --severity HIGH,CRITICAL --exit-code 1 --no-progress --format json --output logs/trivy-output.json terraform/ || exit 1
+            trivy config --scan-all-layers --severity HIGH,CRITICAL --exit-code 1 --no-progress --format json --output logs/trivy-output.json terraform/
 
         - name: Upload trivy report
           uses: actions/upload-artifact@v4.6.2
