@@ -53,13 +53,7 @@ jobs:
 
         - name: Run initial Trivy scan
           run: |
-            trivy config --severity HIGH,CRITICAL --exit-code 1 --format json --output logs/trivy-output.json terraform/ || \
-
-        - name: Retry Trivy scan after reset (only if previous step failed)
-          if: failure()
-          run: |
-            echo "Retrying Trivy scan..."
-            trivy config --severity HIGH,CRITICAL --exit-code 1 --format json --output logs/trivy-output.json terraform/ || \
+            trivy config --severity HIGH,CRITICAL --exit-code 1 --format json --output logs/trivy-output.json terraform/
 
         - name: Upload trivy report
           uses: actions/upload-artifact@v4.6.2
